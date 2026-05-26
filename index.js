@@ -61,6 +61,69 @@ app.get("/products/:id", (req, res) => {
   res.status(200).json(product);
 });
 
+app.post("/products", (req, res) => {
+  const { name, price, quantity } = req.body;
+
+  if (!name || !price || !quantity) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  const newProduct = {
+    id: products.length + 1,
+    name,
+    price: Number(price),
+    quantity: quantity !== undefined ? Number(quantity) : 1,
+  };
+
+  products.push(newProduct);
+
+  res.status(201).json(newProduct);
+});
+
+app.put("/products/:id", (req, res) => {
+  const { id } = req.params;
+  const { name, price, quantity } = req.body;
+
+  const productIndex = products.findIndex((p) => p.id === id);
+
+  if (productIndex === -1) {
+    return res.status(404).json({ message: `Product with ID ${id} not found` });
+  }
+
+  const currentProduct = products[productIndex];
+
+  if (name) {
+    currentProduct.name = name;
+  }
+
+  if (price !== undefined) {
+    currentProduct.price = Number(price);
+  }
+
+  if (quantity !== undefined) {
+    currentProduct.quantity = Number(quantity);
+  }
+
+  products[productIndex] = currentProduct;
+
+  res.status(200).json(products[productIndex]);
+});
+app.delete("/products/:id", (req, res) => {
+  const { id } = req.params;
+  const productIndex = products.findIndex((p) => p.id === id);
+
+  if (productIndex === -1) {
+    return res.status(404).json({ message: `Product with ID ${id} not found` });
+  }
+
+  const deletedProduct = products.splice(productIndex, 1);
+
+  res.status(200).json({
+    message: "Product deleted successfully",
+    product: deletedProduct[0],
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
