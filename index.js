@@ -3,6 +3,7 @@ import express from "express";
 const app = express();
 const PORT = 3000;
 
+// In-memory array to store products
 let products = [
   {
     id: 1,
@@ -24,8 +25,10 @@ let products = [
   },
 ];
 
+// Middleware to read JSON Body
 app.use(express.json());
 
+// 3. Custom Middleware (Request Logger)
 app.use((req, res, next) => {
   const now = new Date().toISOString();
   console.log(`${now}: ${req.method} ${req.url}`);
@@ -34,6 +37,28 @@ app.use((req, res, next) => {
 
 app.get("/", (req, res) => {
   res.send("Server is running smoothly!");
+});
+
+app.get("/products", (req, res) => {
+  const { name } = req.query;
+
+  if (name) {
+    const filteredProducts = products.filter((p) =>
+      p.name.toLowerCase().includes(name.toLowerCase()),
+    );
+    return res.json(filteredProducts);
+  }
+
+  res.json(products);
+});
+
+app.get("/products/:id", (req, res) => {
+  const { id } = req.params;
+  const product = products.find((p) => p.id === id);
+  if (product) {
+    return res.json(product);
+  }
+  res.status(200).json(product);
 });
 
 app.listen(PORT, () => {
