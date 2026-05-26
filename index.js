@@ -3,7 +3,6 @@ import express from "express";
 const app = express();
 const PORT = 3000;
 
-// In-memory array to store products
 let products = [
   {
     id: "1",
@@ -25,10 +24,8 @@ let products = [
   },
 ];
 
-// Middleware to read JSON Body
 app.use(express.json());
 
-// 3. Custom Middleware (Request Logger)
 app.use((req, res, next) => {
   const now = new Date().toISOString();
   console.log(`${now}: ${req.method} ${req.url}`);

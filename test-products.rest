@@ -5,13 +5,13 @@
 GET {{baseUrl}}/products
 
 ### 2. GET PRODUCTS WITH QUERY 
-GET {{baseUrl}}/products?name=Fated One of Miracles, Rez
+GET {{baseUrl}}/products?name=Fated One of Miracles
 
 ### 3. GET SINGLE PRODUCT BY ID 
-GET {{baseUrl}}/products/1
+GET {{baseUrl}}/products/2
 
 ### 4. GET SINGLE PRODUCT BY ID 
-GET {{baseUrl}}/products/wrong-id-123
+GET {{baseUrl}}/products/wrong-
 
 ### 5. POST NEW PRODUCT 
 POST {{baseUrl}}/products
