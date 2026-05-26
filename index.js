@@ -6,19 +6,19 @@ const PORT = 3000;
 // In-memory array to store products
 let products = [
   {
-    id: 1,
+    id: "1",
     name: "Fated One of Miracles, Rezael",
     price: 300,
     quantity: 1,
   },
   {
-    id: 2,
+    id: "2",
     name: "Divine Sister, Biscotti",
     price: 2500,
     quantity: 2,
   },
   {
-    id: 3,
+    id: "3",
     name: "Knight of Gentle Beauty, Nobia",
     price: 100,
     quantity: 1,
@@ -54,11 +54,14 @@ app.get("/products", (req, res) => {
 
 app.get("/products/:id", (req, res) => {
   const { id } = req.params;
+
   const product = products.find((p) => p.id === id);
+
   if (product) {
-    return res.json(product);
+    return res.status(200).json(product);
   }
-  res.status(200).json(product);
+
+  res.status(404).json({ message: `Product with ID ${id} not found` });
 });
 
 app.post("/products", (req, res) => {
@@ -69,7 +72,7 @@ app.post("/products", (req, res) => {
   }
 
   const newProduct = {
-    id: products.length + 1,
+    id: (products.length + 1).toString(),
     name,
     price: Number(price),
     quantity: quantity !== undefined ? Number(quantity) : 1,
@@ -108,6 +111,7 @@ app.put("/products/:id", (req, res) => {
 
   res.status(200).json(products[productIndex]);
 });
+
 app.delete("/products/:id", (req, res) => {
   const { id } = req.params;
   const productIndex = products.findIndex((p) => p.id === id);
@@ -121,6 +125,14 @@ app.delete("/products/:id", (req, res) => {
   res.status(200).json({
     message: "Product deleted successfully",
     product: deletedProduct[0],
+  });
+});
+
+app.use((err, req, res, next) => {
+  console.error("Oops! Something went wrong:", err.stack);
+  res.status(500).json({
+    message: "Internal Server Error",
+    error: err.message,
   });
 });
 

@@ -1,0 +1,44 @@
+### Variables
+@baseUrl = http://localhost:3000
+
+### 1. GET ALL PRODUCTS 
+GET {{baseUrl}}/products
+
+### 2. GET PRODUCTS WITH QUERY 
+GET {{baseUrl}}/products?name=Fated One of Miracles, Rez
+
+### 3. GET SINGLE PRODUCT BY ID 
+GET {{baseUrl}}/products/1
+
+### 4. GET SINGLE PRODUCT BY ID 
+GET {{baseUrl}}/products/wrong-id-123
+
+### 5. POST NEW PRODUCT 
+POST {{baseUrl}}/products
+Content-Type: application/json
+
+{
+  "name": "Fated One of Unparalleled, Varga Dragres",
+  "price": 300,
+  "quantity": 1
+}
+
+### 6. POST NEW PRODUCT 
+POST {{baseUrl}}/products
+Content-Type: application/json
+
+{
+  "name": "Broken Item"
+}
+
+### 7. PUT UPDATE PRODUCT 
+PUT {{baseUrl}}/products/4
+Content-Type: application/json
+
+{
+  "price": 35,
+  "quantity": 5
+}
+
+### 8. DELETE PRODUCT 
+DELETE {{baseUrl}}/products/4
